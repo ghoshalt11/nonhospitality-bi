@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: sales_tran
+    database: nonhospitality-bi
+    schema: sales_tran
+    tables:
+      - name: sales_tran
+        description: "Raw ancillary sales transactions from hotel and partner services"
