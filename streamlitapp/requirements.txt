@@ -1,0 +1,13 @@
+streamlit
+pandas
+google-cloud-aiplatform
+google-generativeai
+google-auth
+google-auth-oauthlib
+google-cloud-storage
+db-dtypes
+tabulate
+google-cloud-bigquery
+vertexai
+numpy
+sentence-transformers
