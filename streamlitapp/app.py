@@ -1,60 +1,75 @@
 import streamlit as st
-from google import genai
-from google.genai import types
-import pandas as pd
-import os
 
-# --- Setup ---
-st.set_page_config(page_title="AI Hotel Analytics Chatbot", layout="wide")
-st.title("🏨 AI Hotel Chatbot powered by Vertex AI (Gemini 2.5)")
 
-# ✅ Set your API key (or store it in Secret Manager)
-os.environ["GOOGLE_CLOUD_API_KEY"] = "YOUR_API_KEY"
 
-# Initialize Gemini client
-client = genai.Client(vertexai=True, api_key=os.environ["GOOGLE_CLOUD_API_KEY"])
 
-# --- Streamlit UI ---
-user_input = st.text_area("💬 Ask your business question:")
-uploaded_file = st.file_uploader("📂 Optional: Upload market or service data (CSV)", type=["csv"])
 
-if st.button("Ask AI"):
-    context_text = ""
 
-    if uploaded_file:
-        df = pd.read_csv(uploaded_file)
-        context_text += f"Preview of uploaded data:\n{df.head(5).to_string(index=False)}\n\n"
 
-    contents = [
-        types.Content(
-            role="user",
-            parts=[types.Part.from_text(text=f"""
-            You are an AI Business Analyst for a hotel chain.
-            Context:
-            {context_text}
-            Question:
-            {user_input}
-            Provide insightful, data-aware responses suitable for business executives.
-            """)]
-        ),
-    ]
+# Gradient background CSS
+gradient_css = """
+<style>
+    body {
+        background: linear-gradient(to bottom right, white, black);
+        color: white;
+    }
 
-    config = types.GenerateContentConfig(
-        temperature=0.8,
-        top_p=0.9,
-        max_output_tokens=2048,
-        response_modalities=["TEXT"],
-    )
+    /* Streamlit main block */
+    .stApp {
+        background: linear-gradient(to bottom right, white, black) !important;
+    }
 
-    with st.spinner("Analyzing with Gemini..."):
-        response_text = ""
-        for chunk in client.models.generate_content_stream(
-            model="gemini-2.0-flash",
-            contents=contents,
-            config=config,
-        ):
-            if hasattr(chunk, "text") and chunk.text:
-                response_text += chunk.text
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(to bottom, #ffffff, #000000) !important;
+    }
+</style>
+"""
 
-        st.subheader("🤖 AI Insight")
-        st.write(response_text)
+# st.markdown(gradient_css, unsafe_allow_html=True)
+st.markdown(
+    """
+    <style>
+        .stApp {
+            background: linear-gradient(135deg, #dbeafe 0%, #ffffff 60%);
+            background-attachment: fixed;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+#"🏨"
+
+
+st.set_page_config(page_title="AI Hotel Business Suite",  layout="wide")
+
+
+st.title("🏨 Hotel Ancillary Suite")
+st.markdown("""
+Welcome to your **Hotel Intelligence Hub**, powered by **Vertex AI (Gemini 2.5)**.
+
+
+Use the sidebar to switch between:
+- **📊 ROI Analyzer** — Upload new market data, costs, and forecast ROI
+- **💬 AI Chat Assistant** — Ask conversational business questions
+""")
+# --- Embed Looker Dashboard directly here ---
+st.markdown("---")
+st.subheader("📈 Quick Business Performance Overview")
+
+looker_url = "https://lookerstudio.google.com/embed/reporting/f222b53e-1d1d-480a-b800-1adf25c5c407/page/y54fF"
+
+st.markdown(
+    f"""
+    <iframe src="{looker_url}"
+            width="100%"
+            height="900"
+            style="border:none; border-radius:10px;"
+            allowfullscreen
+            sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+    </iframe>
+    """,
+    unsafe_allow_html=True,
+)
