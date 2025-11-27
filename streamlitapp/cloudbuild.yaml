@@ -1,0 +1,39 @@
+steps:
+  # 1. Build Docker image
+  - name: "gcr.io/cloud-builders/docker"
+    args: [
+      "build",
+      "-t",
+      "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/streamlitapp:$COMMIT_SHA",
+      "."
+    ]
+    dir: "streamlitapp"
+
+  # 2. Push image to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: [
+      "push",
+      "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/streamlitapp:$COMMIT_SHA"
+    ]
+
+  # 3. Deploy to Cloud Run
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "run",
+        "deploy",
+        "${_SERVICE}",
+        "--image",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/streamlitapp:$COMMIT_SHA",
+        "--region",
+        "${_REGION}",
+        "--platform",
+        "managed",
+        "--allow-unauthenticated"
+      ]
+
+# Default substitutions (you can change these names)
+substitutions:
+  _REGION: asia-south1
+  _REPO: streamlit-repo
+  _SERVICE: nonhospitality-streamlit-app
