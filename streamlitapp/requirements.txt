@@ -11,3 +11,5 @@ google-cloud-bigquery
 vertexai
 numpy
 sentence-transformers
+google-genai
+
