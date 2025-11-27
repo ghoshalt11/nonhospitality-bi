@@ -3,9 +3,6 @@ import streamlit as st
 
 
 
-
-
-
 # Gradient background CSS
 gradient_css = """
 <style>
