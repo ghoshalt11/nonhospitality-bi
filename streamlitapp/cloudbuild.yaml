@@ -37,3 +37,6 @@ substitutions:
   _REGION: asia-south1
   _REPO: streamlit-repo
   _SERVICE: nonhospitality-streamlit-app
+
+options:
+  logging: CLOUD_LOGGING_ONLY
