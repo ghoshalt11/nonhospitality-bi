@@ -1,15 +1,24 @@
 streamlit
 pandas
-google-cloud-aiplatform
-google-generativeai
-google-auth
-google-auth-oauthlib
-google-cloud-storage
+numpy
 db-dtypes
 tabulate
-google-cloud-bigquery
-vertexai
-numpy
-sentence-transformers
-google-genai
 
+# BigQuery
+google-cloud-bigquery
+google-cloud-bigquery-storage
+pyarrow
+pandas-gbq
+
+# Vertex AI
+google-cloud-aiplatform
+
+# Authentication
+google-auth
+google-auth-oauthlib
+
+# Storage (optional)
+google-cloud-storage
+
+# Sentence Transformer (if you use embeddings)
+sentence-transformers
