@@ -1,0 +1,59 @@
+table_name: monthly_service_kpis
+description: Historical monthly KPIs for each service category and city.
+
+columns:
+  - name: service_category
+    type: STRING
+    description: Ancillary service type (Spa, Gym, Massage, etc.)
+
+  - name: city
+    type: STRING
+    description: City or hotel location.
+
+  - name: year
+    type: INTEGER
+    description: Reporting year.
+
+  - name: month
+    type: INTEGER
+    description: Reporting month (1–12).
+
+  - name: total_revenue
+    type: FLOAT
+    description: Total revenue generated in that month.
+
+  - name: txn_count
+    type: INTEGER
+    description: Number of transactions/bookings.
+
+  - name: total_guest_count
+    type: INTEGER
+    description: Total number of guests served.
+
+  - name: marketing_spend_month
+    type: FLOAT
+    description: Monthly marketing/advertising spend.
+
+  - name: operational_cost_month
+    type: FLOAT
+    description: Cost of running the service for that month.
+
+  - name: max_capacity
+    type: INTEGER
+    description: Maximum possible service capacity.
+
+  - name: total_invest
+    type: FLOAT
+    description: Total investment input used to run the service.
+
+  - name: capacity_utilization_pct
+    type: FLOAT
+    description: Actual usage % = total_guest_count / max_capacity.
+
+  - name: roi_percent
+    type: FLOAT
+    description: ROI percentage for that month.
+
+  - name: profit_margin_pct
+    type: FLOAT
+    description: Profit margin percentage for that month.

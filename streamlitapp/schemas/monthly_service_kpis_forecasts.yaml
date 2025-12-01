@@ -1,0 +1,31 @@
+table_name: monthly_service_kpis_forecasts
+description: Forecasted KPIs and predicted ROI values per service and city.
+
+columns:
+  - name: service_category
+    type: STRING
+    description: Service type for which forecast is generated.
+
+  - name: city
+    type: STRING
+    description: City corresponding to forecast.
+
+  - name: ds
+    type: DATETIME
+    description: Forecasted date (monthly granularity).
+
+  - name: forecasted_profit_margin_pct
+    type: FLOAT
+    description: Predicted profit margin percentage.
+
+  - name: actual_profit_margin_pct
+    type: FLOAT
+    description: Actual profit margin (if available).
+
+  - name: forecasted_roi_percent
+    type: FLOAT
+    description: Predicted ROI percentage for next period(s).
+
+  - name: actual_roi_percent
+    type: FLOAT
+    description: Actual ROI recorded (if available).

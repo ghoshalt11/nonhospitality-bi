@@ -1,0 +1,148 @@
+semantic_model:
+
+  purpose: >
+    Provides business semantics, metric definitions, synonyms, temporal logic,
+    and column mappings to allow Gemini 2.0 to generate accurate BigQuery SQL
+    grounded in the nonhospitality-bi analytics dataset.
+
+  datasets:
+    descriptive_table:
+      name: nonhospitality-bi.analytics.monthly_service_kpis
+      type: descriptive
+      grain: monthly
+      dimensions: [service_category, city, year, month]
+      measures:
+        - total_revenue
+        - txn_count
+        - total_guest_count
+        - marketing_spend_month
+        - operational_cost_month
+        - max_capacity
+        - total_invest
+        - capacity_utilization_pct
+        - roi_percent
+        - profit_margin_pct
+
+    forecast_table:
+      name: nonhospitality-bi.analytics.monthly_service_kpis_forecasts
+      type: predictive
+      grain: monthly
+      dimensions: [service_category, city, ds]
+      measures:
+        - forecasted_profit_margin_pct
+        - actual_profit_margin_pct
+        - forecasted_roi_percent
+        - actual_roi_percent
+
+  synonyms:
+    service_category:
+      - service
+      - service type
+      - ancillary service
+      - amenity
+      - spa
+      - gym
+      - massage
+      - salon
+      - pool
+      - F&B (Food & Beverages)
+
+    city:
+      - location
+      - region
+      - hotel city
+      - branch
+
+    total_revenue:
+      - revenue
+      - sales
+      - income
+
+    txn_count:
+      - transactions
+      - bookings
+
+    total_guest_count:
+      - guest count
+      - customers
+      - visitors
+
+    operational_cost_month:
+      - operational cost
+      - opex
+      - monthly cost
+
+    marketing_spend_month:
+      - marketing cost
+      - ad spend
+      - marketing expenses
+
+    roi_percent:
+      - roi
+      - return on investment
+
+    profit_margin_pct:
+      - profit margin
+      - margin percentage
+
+    forecasted_roi_percent:
+      - predicted roi
+      - forecast roi
+      - next quarter roi
+      - future roi
+
+    ds:
+      - forecast date
+      - time period
+      - month
+      - prediction month
+
+  metric_definitions:
+    ROI:
+      formula: "(total_revenue - operational_cost_month) / operational_cost_month * 100"
+      source_column: roi_percent
+      table: monthly_service_kpis
+
+    Profit_Margin:
+      formula: "(total_revenue - operational_cost_month) / total_revenue * 100"
+      source_column: profit_margin_pct
+      table: monthly_service_kpis
+
+    MER:
+      formula: "marketing_spend_month / total_revenue"
+      computed: true
+      description: Marketing Efficiency Ratio
+
+    Capacity_Utilization:
+      formula: "total_guest_count / max_capacity * 100"
+      source_column: capacity_utilization_pct
+      table: monthly_service_kpis
+
+  temporal_semantics:
+    last_month:
+      definition: "latest year/month in descriptive table"
+
+    last_quarter:
+      definition: "previous 3 months of data"
+
+    next_month:
+      definition: "next ds value from forecasts table"
+
+    next_quarter:
+      definition: "next 3 periods of forecast where ds increases"
+
+  decision_rules:
+    - use descriptive table for questions involving "current", "past", "historical", "last quarter", "trend"
+    - use forecast table for "predict", "forecast", "next quarter", "future", "expected"
+    - service recommendations require BOTH descriptive and forecast tables
+    - LLM must NEVER invent column names
+    - Only generate BigQuery SQL referencing listed columns
+
+  sql_generation_rules:
+    - Identify dimensions mentioned (service_category, city, time)
+    - Infer measure from context (revenue, profit margin, roi)
+    - Pick correct table based on intent
+    - Use SAFE_DIVIDE for ratios
+    - Apply ORDER BY year DESC, month DESC for historical
+    - Apply ORDER BY ds DESC for forecasts
+    - Return SQL only, no explanation

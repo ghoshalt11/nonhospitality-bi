@@ -1,0 +1,80 @@
+table: nonhospitality-bi.raw.market_data
+
+description: >
+  External market & competitor dataset capturing pricing, demand,
+  competition, sentiment, and environmental factors for each service
+  category across all cities on a monthly basis.
+
+columns:
+
+  - name: date
+    type: DATE
+    description: Full calendar date of the market observation.
+
+  - name: year
+    type: INTEGER
+    description: Extracted year component for easier filtering.
+
+  - name: month
+    type: INTEGER
+    description: Extracted month component for easier filtering.
+
+  - name: city
+    type: STRING
+    description: Name of the city.
+
+  - name: service_category
+    type: STRING
+    description: Service category this market record relates to.
+
+  - name: competitor_avg_price
+    type: FLOAT
+    description: Average price competitors are offering for this service.
+
+  - name: competitor_discount_rate
+    type: FLOAT
+    description: Average competitor discount rate as percentage.
+
+  - name: market_demand_index
+    type: FLOAT
+    description: Demand index score for the service (0–100). Higher = higher demand.
+
+  - name: demand_growth_pct
+    type: FLOAT
+    description: Percentage month-over-month growth in service demand.
+
+  - name: competitor_count
+    type: INTEGER
+    description: Total number of active competitors in the city for this service.
+
+  - name: competitor_available_capacity
+    type: FLOAT
+    description: Estimated competitor capacity available (units).
+
+  - name: market_utilization_rate
+    type: FLOAT
+    description: Market occupancy/utilization percentage for the service.
+
+  - name: seasonality_factor
+    type: FLOAT
+    description: Seasonality adjustment factor (0–1.5 typical range).
+
+  - name: city_event_impact_score
+    type: INTEGER
+    description: Impact of events in the city (0–10) affecting demand.
+
+  - name: avg_customer_rating
+    type: FLOAT
+    description: Average competitor customer rating (1–5 scale).
+
+  - name: avg_review_sentiment_score
+    type: FLOAT
+    description: Sentiment score computed from reviews (-1 to +1).
+
+  - name: willingness_to_pay_score
+    type: FLOAT
+    description: Consumer willingness-to-pay index (0–100).
+
+  - name: is_offered_by_hotel
+    type: BOOLEAN
+    description: Indicates whether this service is currently offered by our hotel.
